@@ -12,9 +12,9 @@ set -x
 
 AWS_PROFILE="default"
 
-[[ -z "$AWS_ACCESS_KEY_ID" ]] && echo "AWS_ACCESS_KEY_ID is not SET!"; exit 1
-[[ -z "$AWS_SECRET_ACCESS_KEY" ]] && echo "AWS_SECRET_ACCESS_KEY is not SET!"; exit 2
-[[ -z "$AWS_REGION" ]] && echo "AWS_REGION is not SET!"; exit 3
+#[[ -z "$AWS_ACCESS_KEY_ID" ]] && echo "AWS_ACCESS_KEY_ID is not SET!"; exit 1
+#[[ -z "$AWS_SECRET_ACCESS_KEY" ]] && echo "AWS_SECRET_ACCESS_KEY is not SET!"; exit 2
+#[[ -z "$AWS_REGION" ]] && echo "AWS_REGION is not SET!"; exit 3
 
 aws configure --profile ${AWS_PROFILE} set aws_access_key_id ${AWS_ACCESS_KEY_ID}
 aws configure --profile ${AWS_PROFILE} set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
