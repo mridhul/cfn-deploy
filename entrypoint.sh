@@ -8,6 +8,7 @@ set -o errtrace
 set -o nounset
 # Catch if the pipe fucntion fails
 set -o pipefail
+set -x
 
 AWS_PROFILE="default"
 
