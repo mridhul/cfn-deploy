@@ -34,7 +34,20 @@ cfn-deploy(){
     parameters=$4
     capablities=$5
 
-    ARG_STRING="--template-body file://${template} --parameters file://${parameters} --capabilities ${capablities}"
+    ARG_CMD=" "
+    if [[ -z $template ]];then
+        ARG_CMD="${ARG_CMD}--template-body file://${template}"
+    fi
+    if [[ -z $parameters ]];then
+        ARG_CMD="${ARG_CMD}--parameters file://${parameters}"
+    fi
+    if [[ -z $capabilities ]];then
+        ARG_CMD="${ARG_CMD}--capabilities ${capablities}"
+    fi
+
+
+    #ARG_STRING="--template-body file://${template} --parameters file://${parameters} --capabilities ${capablities}"
+    ARG_STRING=$ARG_CMD
 
     shopt -s failglob
     set -eu -o pipefail
