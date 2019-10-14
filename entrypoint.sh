@@ -34,7 +34,7 @@ cfn-deploy(){
     parameters=$4
     capablities=$5
 
-    ARG_STRING="--template-body file://${template} --parameters file://${parameters}.json --capabilities ${capablities}"
+    ARG_STRING="--template-body file://${template} --parameters file://${parameters} --capabilities ${capablities}"
 
     shopt -s failglob
     set -eu -o pipefail
