@@ -36,13 +36,13 @@ cfn-deploy(){
 
     ARG_CMD=" "
     if [[ ! -z $template ]];then
-        ARG_CMD="${ARG_CMD}--template-body file://${template}"
+        ARG_CMD="${ARG_CMD}--template-body file://${template} "
     fi
     if [[ ! -z $parameters ]];then
-        ARG_CMD="${ARG_CMD}--parameters file://${parameters}"
+        ARG_CMD="${ARG_CMD}--parameters file://${parameters} "
     fi
     if [[ ! -z $capablities ]];then
-        ARG_CMD="${ARG_CMD}--capabilities ${capablities}"
+        ARG_CMD="${ARG_CMD}--capabilities ${capablities} "
     fi
 
 
