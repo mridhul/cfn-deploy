@@ -28,16 +28,13 @@ cfn-deploy(){
     stack-name   - the stack name
     aws-cli-opts - extra options passed directly to create-stack/update-stack
     "
+    region=$1
+    stack=$2
+    template=$3
+    parameters=$4
+    capablities=$5
 
-    if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "help" ] || [ "$1" == "usage" ] ; then
-    echo "$usage"
-    exit -1
-    fi
-
-    if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] ; then
-    echo "$usage"
-    exit -1
-    fi
+    ARG_STRING="--template-body file://${template} --parameters file://${parameters}.json --capabilities ${capablities}"
 
     shopt -s failglob
     set -eu -o pipefail
@@ -50,7 +47,7 @@ cfn-deploy(){
     aws cloudformation create-stack \
         --region $1 \
         --stack-name $2 \
-        ${@:3}
+        $ARG_STRING
 
     echo "Waiting for stack to be created ..."
     aws cloudformation wait stack-create-complete \
@@ -65,7 +62,7 @@ cfn-deploy(){
     update_output=$( aws cloudformation update-stack \
         --region $1 \
         --stack-name $2 \
-        ${@:3}  2>&1)
+        $ARG_STRING  2>&1)
     status=$?
     set -e
 
