@@ -41,7 +41,7 @@ cfn-deploy(){
     if [[ -z $parameters ]];then
         ARG_CMD="${ARG_CMD}--parameters file://${parameters}"
     fi
-    if [[ -z $capabilities ]];then
+    if [[ -z $capablities ]];then
         ARG_CMD="${ARG_CMD}--capabilities ${capablities}"
     fi
 
