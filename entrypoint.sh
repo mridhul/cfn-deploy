@@ -12,9 +12,18 @@ set -x
 
 AWS_PROFILE="default"
 
-#[[ -z "$AWS_ACCESS_KEY_ID" ]] && echo "AWS_ACCESS_KEY_ID is not SET!"; exit 1
-#[[ -z "$AWS_SECRET_ACCESS_KEY" ]] && echo "AWS_SECRET_ACCESS_KEY is not SET!"; exit 2
-#[[ -z "$AWS_REGION" ]] && echo "AWS_REGION is not SET!"; exit 3
+#Check AWS credetials are defined in Gitlab Secrets
+if [[ -z "$AWS_ACCESS_KEY_ID" ]];then
+    echo "AWS_ACCESS_KEY_ID is not SET!"; exit 1
+fi
+
+if [[ -z "$AWS_SECRET_ACCESS_KEY" ]];then
+    echo "AWS_SECRET_ACCESS_KEY is not SET!"; exit 2
+fi
+
+if [[ -z "$AWS_REGION" ]];then
+echo "AWS_REGION is not SET!"; exit 3
+fi
 
 aws configure --profile ${AWS_PROFILE} set aws_access_key_id ${AWS_ACCESS_KEY_ID}
 aws configure --profile ${AWS_PROFILE} set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
@@ -26,7 +35,9 @@ cfn-deploy(){
     where:
     region       - the AWS region
     stack-name   - the stack name
-    aws-cli-opts - extra options passed directly to create-stack/update-stack
+    template     - the template file
+    parameters   - the paramters file
+    capablities  - capablities for IAM
     "
     region=$1
     stack=$2
@@ -45,8 +56,6 @@ cfn-deploy(){
         ARG_CMD="${ARG_CMD}--capabilities ${capablities} "
     fi
 
-
-    #ARG_STRING="--template-body file://${template} --parameters file://${parameters} --capabilities ${capablities}"
     ARG_STRING=$ARG_CMD
 
     shopt -s failglob
