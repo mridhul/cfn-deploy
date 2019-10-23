@@ -31,7 +31,7 @@ aws configure --profile ${AWS_PROFILE} set region ${AWS_REGION}
 
 
 cfn-deploy(){
-    usage="Usage: $(basename "$0") region stack-name [aws-cli-opts]
+    usage="Usage: $(basename "$0") region stack-name templatefile parameterfile capablities
     where:
     region       - the AWS region
     stack-name   - the stack name
@@ -61,55 +61,53 @@ cfn-deploy(){
     shopt -s failglob
     set -eu -o pipefail
 
-    echo "Checking if stack exists ..."
+    echo -e "\nVERIFYING IF CFN STACK EXISTS ...!"
 
     if ! aws cloudformation describe-stacks --region $1 --stack-name $2 ; then
 
-    echo -e "\nStack does not exist, creating ..."
+    echo -e "\nSTACK DOES NOT EXISTS, RUNNING CREATE"
     aws cloudformation create-stack \
         --region $1 \
         --stack-name $2 \
         $ARG_STRING
 
-    echo "Waiting for stack to be created ..."
+    echo "\nSLEEP STILL STACK CREATES zzz ..."
     aws cloudformation wait stack-create-complete \
         --region $1 \
         --stack-name $2 \
 
     else
 
-    echo -e "\nStack exists, attempting update ..."
+    echo -e "\n STACK IS AVAILABLE, TRYING TO UPDATE !!"
 
     set +e
-    update_output=$( aws cloudformation update-stack \
+    stack_output=$( aws cloudformation update-stack \
         --region $1 \
         --stack-name $2 \
         $ARG_STRING  2>&1)
-    status=$?
+    exit_status=$?
     set -e
 
-    echo "$update_output"
+    echo "$stack_output"
 
-    if [ $status -ne 0 ] ; then
+    if [ $exit_status -ne 0 ] ; then
 
-        # Don't fail for no-op update
-        if [[ $update_output == *"ValidationError"* && $update_output == *"No updates"* ]] ; then
-        echo -e "\nFinished create/update - no updates to be performed"
-        exit 0
+        if [[ $stack_output == *"ValidationError"* && $update_output == *"No updates"* ]] ; then
+            echo -e "\nNO OPERATIONS PERFORMED" && exit 0
         else
-        exit $status
+            exit $exit_status
         fi
 
     fi
 
-    echo "Waiting for stack update to complete ..."
+    echo "STACK UPDATE CHECK ..."
     aws cloudformation wait stack-update-complete \
         --region $1 \
         --stack-name $2 \
 
     fi
 
-    echo "Finished create/update successfully!"
+    echo -e "\nSUCCESSFULLY UPDATED - $2"
 }
 
 cfn-deploy $AWS_REGION $STACK_NAME $TEMPLATE_FILE $PARAMETERS_FILE $CAPABLITIES
