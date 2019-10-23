@@ -92,7 +92,7 @@ cfn-deploy(){
 
     if [ $exit_status -ne 0 ] ; then
 
-        if [[ $stack_output == *"ValidationError"* && $update_output == *"No updates"* ]] ; then
+        if [[ $stack_output == *"ValidationError"* && $stack_output == *"No updates"* ]] ; then
             echo -e "\nNO OPERATIONS PERFORMED" && exit 0
         else
             exit $exit_status
