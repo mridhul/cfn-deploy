@@ -2,7 +2,7 @@ FROM ubuntu
 
 LABEL version="1.0.0"
 
-LABEL "maintainer"="Mridhul Pax <mridhul@devopsifly.com>"
+LABEL "maintainer"="Mridhul Pax <mridhuljospax@gmail.com>"
 LABEL "repository"="https://github.com/mridhul/cfn-deploy"
 
 LABEL com.github.actions.name="Cloudformation Github Deploy"
