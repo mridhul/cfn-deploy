@@ -31,14 +31,13 @@ aws configure --profile ${AWS_PROFILE} set region ${AWS_REGION}
 
 
 cfn-deploy(){
-    usage="Usage: $(basename "$0") region stack-name [aws-cli-opts]
-    where:
-    region       - the AWS region
-    stack-name   - the stack name
-    template     - the template file
-    parameters   - the paramters file
-    capablities  - capablities for IAM
-    "
+   #Paramters
+   # region       - the AWS region
+   # stack-name   - the stack name
+   # template     - the template file
+   # parameters   - the paramters file
+   # capablities  - capablities for IAM
+   
     region=$1
     stack=$2
     template=$3
